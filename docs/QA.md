@@ -1,6 +1,15 @@
 # 页面验证记录
 
-最近验证：2026-10-04。浏览器：本机 Microsoft Edge / Chromium；本地预览端口 4323。
+最近验证：2026-10-15。线上首发使用 Chrome 验证；历史本地验证使用 Microsoft Edge / Chromium，本地预览端口 4323。
+
+## GitHub Pages 首次发布：2026-10-15
+
+- 正式网址：<https://zzzbkkk.github.io/>；仓库：<https://github.com/zzzbkkk/zzzbkkk.github.io>。HTTPS 已启用，`main` 推送通过 GitHub Actions 自动构建、检查并发布。首次成功部署记录：<https://github.com/zzzbkkk/zzzbkkk.github.io/actions/runs/38723534207>，源码提交 `6ed075f`。
+- 本地与 GitHub Actions 构建检查均通过：16 个双语页面、4 项作品、510 个链接/资源引用、11 个 CSS/JS 模块。上线未修改页面视觉与正文。
+- 线上 HTTP 验收覆盖 40 个请求：16 个内容页、根首页、404 文件均返回 200，两条未知中英文路径返回 404；20 项 JS、CSS、模型、WASM、字体、简历等关键资源状态及 MIME 正确。GitHub Pages 的根路径显示中文首页，未知英文路径沿用根中文 404。
+- 简历为 8,580,008 字节，SHA-256 与本地一致；CSS 仅由 Git 统一 CRLF/LF 换行，内容一致。`.gitattributes` 明确 PDF、字体和模型等二进制类型，防止行尾转换破坏资源。
+- Chrome 实际打开正式网址后入场正常结束，只有一个背景 Canvas，实时蜻蜓已启用且无横向溢出；作品集导航和中英文切换正常。线上截图留在本地 `docs/qa/github-pages-home.jpg`。本轮为部署验收，没有重新进行完整动效、真机或跨地区网络测试。
+- 源码提交排除了历史备份、参考截图、QA 图片、构建产物和本地环境文件；Pages 只发布 `dist/`，不运行 `server.mjs`，本地服务器的缓存和 CSP 响应头不作为线上配置。
 
 ## 当前版本：v3.0.2 三秒入场
 
