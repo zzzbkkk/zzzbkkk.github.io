@@ -1,0 +1,74 @@
+/* Quiet surface light is limited to authored diagrams; card text stays solid. */
+.work-cover{background:linear-gradient(180deg,#171717 0%,#131313 45%,#111111 100%);box-shadow:inset 0 1px 0 rgb(255 255 255/.035)}
+.work-cover .cover-art{height:auto;min-height:max(204px,37.5cqw)}
+.detail-page>.work-cover .cover-art{min-height:max(204px,31.25cqw)}
+
+/* Diagram language: 36px nodes and 1px connectors, with no simulated product UI. */
+.work-cover .diagram-node{position:relative;z-index:1;display:grid;place-items:center;flex-shrink:0;width:36px;height:36px;padding:0;border:1px solid var(--control);border-radius:50%;background:#141414;box-shadow:0 0 0 4px #141414;font:400 12px/1 var(--mono);letter-spacing:0;color:var(--muted)}
+.work-cover .preview-flow li:first-child .flow-index,.work-cover .adapt-endpoint:last-child .endpoint-symbol{border-color:var(--control);color:var(--muted)}
+
+/* OiiOii: one continuous left-to-right path, read in four equally clear stages. */
+.work-cover .preview-flow{padding-block:8px;align-self:center}
+.work-cover .preview-flow li{min-width:0;gap:12px}
+.work-cover .preview-flow li:not(:last-child)::before{content:'';position:absolute;right:-2px;top:15px;width:5px;height:5px;border-top:1px solid var(--control);border-right:1px solid var(--control);transform:rotate(45deg)}
+
+/* Drimo: source material and subsequent production are distinct content groups. */
+.work-cover .reuse-inputs,.work-cover .reuse-board,.work-cover .reuse-output{display:flex;flex-direction:column;align-items:center;align-self:start;gap:10px;min-width:0;padding:0;border:0;color:var(--text);text-align:center}
+.work-cover .reuse-source-labels{display:flex;flex-direction:column;gap:5px;color:var(--muted)}
+.work-cover .reuse-inputs>.diagram-node{padding:0;border:1px solid var(--control)}
+.work-cover .preview-reuse{grid-template-columns:minmax(0,1fr) 20px minmax(0,1.8fr);align-items:stretch;gap:12px}
+.work-cover .reuse-source-group,.work-cover .reuse-process-group{min-width:0;padding:12px;border:1px solid #303030;border-radius:6px}
+.work-cover .reuse-source-group{display:grid;align-content:center;background:rgb(255 255 255/.012)}
+.work-cover .reuse-inputs{flex-direction:row;align-items:center;text-align:left;gap:12px}
+.work-cover .reuse-process-group{display:grid;grid-template-columns:minmax(0,1fr) 16px minmax(0,1fr);gap:10px;background:rgb(0 0 0/.08)}
+.work-cover .diagram-arrow{position:relative;display:block;align-self:start;margin-top:17px;height:1px;width:100%;min-width:0;background:var(--control);color:var(--control)}
+.work-cover .diagram-arrow::after{content:'';position:absolute;right:0;top:-2px;width:5px;height:5px;border-top:1px solid currentColor;border-right:1px solid currentColor;transform:rotate(45deg)}
+.work-cover .reuse-group-link{align-self:center;margin-top:0}
+
+/* T5: two balanced endpoints around an undirected scope relation. */
+.work-cover .preview-adaptation{align-items:start}
+.work-cover .adapt-endpoint{min-width:0;gap:12px;padding:14px 4px 4px;border-top:1px solid #363636;color:var(--text)}
+.work-cover .adapt-connection{align-self:start;padding-top:32px;gap:12px}
+.work-cover .adapt-connection i{height:1px;grid-row:1}
+.work-cover .endpoint-symbol{font-size:12px}
+
+/* The group layout grows naturally on narrow cards instead of shrinking type. */
+@container(max-width:440px){
+  .work-cover .preview-reuse{grid-template-columns:minmax(0,1fr);gap:10px}
+  .work-cover .reuse-inputs{justify-content:center;gap:16px}
+  .work-cover .reuse-source-labels{flex-direction:row;flex-wrap:wrap;gap:4px 16px}
+  .work-cover .reuse-process-group{grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr);gap:12px}
+  .work-cover .reuse-group-link{justify-self:center;align-self:center;width:1px;height:14px;margin:0}
+  .work-cover .reuse-group-link::after{right:-2px;top:auto;bottom:0;transform:rotate(135deg)}
+}
+@media(max-width:767px){
+  .work-cover .cover-art,.detail-page>.work-cover .cover-art{min-height:220px}
+  .work-cover-drimo,.detail-page>.work-cover-drimo{aspect-ratio:auto}
+  .work-cover .preview-flow li{padding-inline:2px}
+  .work-cover .preview-flow .flow-label{font-size:12px}
+  .work-cover .preview-adaptation{gap:10px}
+}
+
+/* 420ms per stage, 140ms stagger; Drimo alternates nodes and connectors.
+   The undirected T5 relation lights together for 560ms. Every sequence ends. */
+.work-cover[data-cover-active] [data-diagram-stage] .diagram-node{animation:cover-node-pulse 420ms ease-in-out var(--stage-delay,0ms) both}
+.work-cover[data-cover-active] .preview-flow li::after,.work-cover[data-cover-active] .diagram-arrow{animation:cover-line-pulse 420ms ease-in-out var(--stage-delay,0ms) both}
+.work-cover[data-cover-active] .preview-adaptation .diagram-node{animation-duration:560ms}
+.work-cover[data-cover-active] .adapt-connection i{animation:cover-line-pulse 560ms ease-in-out both}
+@keyframes cover-node-pulse{0%,100%{border-color:var(--control);color:var(--muted)}35%,65%{border-color:var(--accent);color:var(--accent)}}
+@keyframes cover-line-pulse{0%,100%{background:var(--control);color:var(--control)}35%,65%{background:var(--accent);color:var(--accent)}}
+@media(prefers-reduced-motion:reduce){.work-cover[data-cover-active] *, .work-cover[data-cover-active] *::after{animation:none!important}}
+
+/* Three parallel responsibility areas, not an invented product workflow. */
+.preview-operations{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-self:center}
+.preview-operations>div{display:flex;flex-direction:column;gap:12px;padding-top:12px;border-top:1px solid var(--control);font-size:clamp(12px,2.8cqw,16px);line-height:1.5}
+.operations-code{font:400 12px/1.5 var(--mono);color:var(--muted);letter-spacing:.05em}
+.work-cover[data-cover-active] .preview-operations>div{animation:operations-pulse 420ms ease-in-out var(--stage-delay,0ms) both}
+@keyframes operations-pulse{0%,100%{border-color:var(--control)}35%,65%{border-color:var(--accent)}}
+.work-card-compact .work-cover{aspect-ratio:auto;min-height:0}
+.work-card-compact .work-cover .cover-art{min-height:188px;padding:18px 24px;gap:12px}
+@media(max-width:767px){
+  .preview-operations{gap:12px}
+  .work-card-compact .work-cover .cover-art{min-height:184px;padding:16px;gap:12px}
+  .work-card-compact .work-cover-drimo .cover-art{min-height:220px}
+}

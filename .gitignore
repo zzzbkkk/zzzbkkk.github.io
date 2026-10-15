@@ -1,0 +1,11 @@
+dist/
+.cache/
+*.log
+node_modules/
+archive/
+docs/qa/
+docs/references/
+build-manifest.json
+.env
+.env.*
+!.env.example

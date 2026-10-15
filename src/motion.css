@@ -1,0 +1,65 @@
+/* Motion scale: press 100ms, menu/content 180ms, navigation 200ms, reveal 220ms. */
+#main{animation:none}
+.button,.filter-button,.menu-toggle{transition:transform 100ms ease-out,background 160ms,border-color 160ms}
+.button:active,.filter-button:active,.menu-toggle:active{transform:scale(.98)}
+.copy-email{width:7em;flex:0 0 7em;overflow-wrap:anywhere}
+.copy-email-label{display:block}
+.copy-email[data-feedback=success]{color:var(--text)}
+.mobile-menu{transform-origin:top center}
+.mobile-pages .nav-link{transform-origin:left center}
+.article-section>h2{position:relative}
+.article-section>h2::before{content:'';position:absolute;left:-12px;top:.2em;bottom:.2em;width:2px;background:var(--accent);opacity:0}
+.article-section.arrived>h2::before{animation:section-arrived 700ms ease-out both}
+.article-section>h2:focus{outline:0}
+@keyframes section-arrived{0%,65%{opacity:1}100%{opacity:0}}
+html{scroll-behavior:smooth}
+/* In-document staged intro completes inside the 3,000ms deadline. */
+.intro-running .intro-name{animation:intro-name-in 390ms ease-out 1350ms both,intro-name-out 180ms ease-in 2370ms forwards}
+/* Only the loading fallback fades as a whole; live geometry owns its reveal. */
+html[data-intro] .page-art:not([data-live]) .page-art-fallback{animation:intro-fallback-in 1350ms ease-out both}
+html[data-intro] .page-art[data-live] .page-art-fallback{animation:none;opacity:0}
+html[data-intro] .page-art[data-live] .background-canvas{transition:none}
+html[data-intro=leaving] .page-art{transition-duration:450ms}
+@keyframes intro-fallback-in{from{opacity:.08}to{opacity:1}}
+@keyframes intro-name-out{to{opacity:0;translate:0 -8px}}
+html.intro-reveal .site-header{animation:intro-part 270ms ease-out both}
+html.intro-reveal .profile-content{animation:intro-part 270ms ease-out 90ms both}
+html.intro-reveal .featured-heading,html.intro-reveal .work-card:first-child{animation:intro-part 270ms ease-out 180ms both}
+@keyframes intro-part{from{opacity:0;translate:0 8px}to{opacity:1;translate:0 0}}
+/* The selected pill is a distinct shared element; its label stays legible. */
+.nav-link{position:relative;isolation:isolate}
+.nav-current-bg{position:absolute;inset:0;border-radius:inherit;background:#1d1d1d;z-index:-1;pointer-events:none}
+.nav-link.current{background:transparent}
+.page-art[data-resume-frame]:not([data-live]) .page-art-fallback{opacity:1}
+.page-art[data-resume-frame] .background-canvas{transition:none}
+@view-transition{navigation:auto}
+@media(prefers-reduced-motion:no-preference){
+  .page-art{view-transition-name:dragonfly-scene}
+  .site-header{view-transition-name:site-navigation}
+  #main{view-transition-name:page-content}
+  .site-footer{view-transition-name:page-footer}
+  .desktop-navigation .nav-current-bg{view-transition-name:nav-selection}
+  ::view-transition-group(root){animation:none}
+  ::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+  ::view-transition-group(site-navigation){animation-duration:200ms;animation-timing-function:ease-out}
+  ::view-transition-old(site-navigation),::view-transition-new(site-navigation){animation:none;mix-blend-mode:normal}
+  ::view-transition-group(nav-selection){animation-duration:200ms;animation-timing-function:cubic-bezier(.2,.7,.2,1)}
+  ::view-transition-old(nav-selection),::view-transition-new(nav-selection){animation:none;mix-blend-mode:normal}
+  ::view-transition-group(page-content),::view-transition-group(page-footer){animation:none}
+  ::view-transition-old(page-content),::view-transition-old(page-footer){animation:route-out 60ms ease-out both}
+  ::view-transition-new(page-content),::view-transition-new(page-footer){animation:content-in 180ms ease-out both}
+  ::view-transition-group(dragonfly-scene){animation:none;z-index:-1}
+  ::view-transition-old(dragonfly-scene){animation:route-out 220ms linear both}
+  ::view-transition-new(dragonfly-scene){animation:content-in 220ms linear both}
+}
+@keyframes route-out{to{opacity:0}}
+@media(max-width:767px),(pointer:coarse){
+  @keyframes intro-part{from{opacity:0}to{opacity:1}}
+  @keyframes intro-name-out{to{opacity:0}}
+}
+@media(prefers-reduced-motion:reduce){
+  @view-transition{navigation:none}
+  html{scroll-behavior:auto}
+  .button:active,.filter-button:active,.menu-toggle:active{transform:none}
+  .article-section.arrived>h2::before{opacity:1}
+}
